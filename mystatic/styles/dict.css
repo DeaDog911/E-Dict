@@ -19,10 +19,25 @@
     margin-bottom: 50px;
 }
 
+.dict-header,
 .word-field {
     width: 100%;
     display: flex;
     justify-content: space-between;
     border: 1px solid grey;
     padding: 10px;
+}
+
+.edit-word-field {
+    height: 40px;
+    padding: 5px;
+    border: 1px solid grey;
+    border-top: 0;
+}
+
+.edit-word-field img{
+    float: right;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
 }

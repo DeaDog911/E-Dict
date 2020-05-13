@@ -9,20 +9,26 @@
             <div class="dict-container" id="{{ dict.slug }}">
                 <p>{{ dict }}</p>
                 <div class="words-list" style="display: none;">
-                    <div class="word-field">
+                    <div class="dict-header">
                         <span>Слово</span>
                         <span>Транскрипция</span>
                         <span>Перевод</span>
                     </div>
                     {% for word in dict.words.iterator %}
-                        <div class="word-field">
-                            <span>{{ word.value }}</span>
-                            <span>{{ word.transcription }}</span>
-                            <span>{{ word.translation }}</span>
+                        <div class="word-container" id="{{ word.slug }}">
+                            <div class="word-field">
+                                <span>{{ word.value }}</span>
+                                <span>{{ word.transcription }}</span>
+                                <span>{{ word.translation }}</span>
+                            </div>
+                            <div class="edit-word-field" style="display: none;">
+                                <img class="delete-word" src="{% static 'images/delete.svg' %}" alt="">
+                                <img class="edit-word" src="{% static 'images/edit.svg' %}" alt="">
+                            </div>
                         </div>
                     {% endfor %}
 
-                    <button class="open-form-btn btn btn-primary mt-2">Добавить новое слово</button>
+                    <button id="open-form-btn" class="btn btn-primary mt-2">Добавить новое слово</button>
                     <form class="form-inline mt-2 " style="display: none;" action="">
                         <input class="form-control mr-2" type="text" id="value" placeholder="Значение">
                         <input class="form-control mr-2" type="text" id="transcription" placeholder="Транскрипция">

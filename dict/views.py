@@ -46,3 +46,35 @@ def create_word(request):
         return HttpResponse('')
     else:
         raise Http404
+
+
+def delete_word(request):
+    if request.is_ajax():
+        data = request.POST
+        word_slug = data.get('word_slug')
+        word = models.Word.objects.get(slug=word_slug)
+        word.delete()
+        return HttpResponse('')
+    else:
+        raise Http404
+
+
+def edit_word(request):
+    if request.is_ajax():
+        data = request.POST
+
+        word_slug = data.get('word_slug')
+        new_value = data.get('new_value')
+        new_transcription = data.get('new_transcription')
+        new_translation = data.get('new_translation')
+
+        word = models.Word.objects.get(slug=word_slug)
+
+        word.value = new_value
+        word.transcription = new_transcription
+        word.translation = new_translation
+
+        word.save()
+        return HttpResponse('')
+    else:
+        raise Http404
