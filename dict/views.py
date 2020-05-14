@@ -43,7 +43,7 @@ def create_word(request):
         dictionary = models.Dictionary.objects.get(slug=dictionary_slug)
         new_word = models.Word(value=value, transcription=transcription, translation=translation, dictionary=dictionary)
         new_word.save()
-        return HttpResponse('')
+        return HttpResponse(new_word.slug)
     else:
         raise Http404
 

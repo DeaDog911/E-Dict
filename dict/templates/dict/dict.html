@@ -17,22 +17,23 @@
                     {% for word in dict.words.iterator %}
                         <div class="word-container" id="{{ word.slug }}">
                             <div class="word-field">
-                                <span>{{ word.value }}</span>
-                                <span>{{ word.transcription }}</span>
-                                <span>{{ word.translation }}</span>
+                                <span class="value">{{ word.value }}</span>
+                                <span class="transcription">{{ word.transcription }}</span>
+                                <span class="translation">{{ word.translation }}</span>
                             </div>
                             <div class="edit-word-field" style="display: none;">
                                 <img class="delete-word" src="{% static 'images/delete.svg' %}" alt="">
                                 <img class="edit-word" src="{% static 'images/edit.svg' %}" alt="">
+                                <button class="save-edited btn btn-success">Сохранить</button>
                             </div>
                         </div>
                     {% endfor %}
 
-                    <button id="open-form-btn" class="btn btn-primary mt-2">Добавить новое слово</button>
+                    <button class="open-form-btn btn btn-primary mt-2">Добавить новое слово</button>
                     <form class="form-inline mt-2 " style="display: none;" action="">
-                        <input class="form-control mr-2" type="text" id="value" placeholder="Значение">
-                        <input class="form-control mr-2" type="text" id="transcription" placeholder="Транскрипция">
-                        <input class="form-control mr-2" type="text" id="translation" placeholder="Перевод">
+                        <input class="form-control mr-2" type="text" name="value" placeholder="Значение">
+                        <input class="form-control mr-2" type="text" name="transcription" placeholder="Транскрипция">
+                        <input class="form-control mr-2" type="text" name="translation" placeholder="Перевод">
 
                         <button class="btn btn-success add-word-btn">Добавить</button>
                     </form>

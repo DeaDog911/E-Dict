@@ -23,13 +23,14 @@
 .word-field {
     width: 100%;
     display: flex;
+    min-height: 40px;
     justify-content: space-between;
     border: 1px solid grey;
     padding: 10px;
 }
 
 .edit-word-field {
-    height: 40px;
+    height: 50px;
     padding: 5px;
     border: 1px solid grey;
     border-top: 0;
@@ -40,4 +41,9 @@
     width: 30px;
     height: 30px;
     margin-left: 10px;
+}
+
+.save-edited {
+    float: right;
+    display: none;
 }
