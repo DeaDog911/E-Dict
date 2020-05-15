@@ -80,6 +80,14 @@ $(document).ready(function() {
             toggleEditWordField(newWordField);
         })
 
+        var editImg = $(newEditWordField).find('.edit-word');
+        var saveEditedBtn = $(newEditWordField).find('.save-edited');
+
+
+        $(editImg).click((e) => {
+            editWord(newEditWordField);
+        })
+
         return newWordContainer;
     }
 
@@ -119,18 +127,12 @@ $(document).ready(function() {
         editImg.setAttribute('class', 'edit-word');
         editImg.setAttribute('src', 'static/images/edit.svg');
 
-        $(editImg).click((e) => {
-            editWord(newEditWordField);
-        })
 
         var saveEditedBtn = document.createElement('button');
         saveEditedBtn.setAttribute('class', 'btn btn-success save-edited');
         $(saveEditedBtn).text('Сохранить');
         $(saveEditedBtn).hide();
 
-        $(saveEditedBtn).click((e) => {
-            saveEdited()
-        })
 
         newEditWordField.appendChild(deleteImg);
         newEditWordField.appendChild(editImg);
@@ -147,16 +149,30 @@ $(document).ready(function() {
         toggleEditWordField(wordField);
     });
 
+    $('input').click((e) => {
+        e.stopPropagation();
+    })
+
     function toggleEditWordField(wordField) {
+
         var wordContainer = wordField.parentElement;
         var editWordField = $(wordContainer).find('.edit-word-field');
 
         if ($(editWordField).css('display') == 'none') {
             $(editWordField).show();
-            $(wordField).css('border-bottom: 0');
+            try {
+                wordField.style.borderBottom = 0;
+            } catch(e) {
+                $(wordField).css('border-bottom: 0');
+            }
         }else {
             $(editWordField).hide();
-            $(wordField).css('border-bottom: 1px solid grey');
+            try {
+                wordField.style.borderBottom = '1px solid grey';
+            } catch {
+                $(wordField).css('border-bottom: 1px solid grey');
+            }
+            replaceAllToSpan(wordField);
         }
     }
 
@@ -192,24 +208,18 @@ $(document).ready(function() {
         var wordContainer = editWordField.parentElement;
         var wordField = $(wordContainer).find('.word-field');
 
-        for (var span of $(wordField).children()) {
-            replaceToInput(span);
-        }
+        replaceAllToInput(wordField);
 
         var saveEditedBtn = $(editWordField).find('.save-edited');
         $(saveEditedBtn).show();
+
+        $(saveEditedBtn).click((e) => {
+            prepareToEdit(editWordField);
+            $(saveEditedBtn).hide();
+        })
     }
 
-    function replaceToInput(span) {
-        var oldValue = $(span).text();
-        var input = document.createElement('input');
-        input.setAttribute('class', 'form-control');
-        input.value = oldValue;
-        $(span).replaceWith(input);
-    }
-
-    $('.save-edited').click((e) => {
-        var editWordField = e.target.parentElement;
+    function prepareToEdit(editWordField) {
         var wordContainer = editWordField.parentElement;
         var wordField = $(wordContainer).find('.word-field');
 
@@ -220,14 +230,39 @@ $(document).ready(function() {
 
         saveEdited(wordSlug, newValue, newTranscription, newTranslation);
 
-        for (var input of $(wordField).children()) {
-            replaceToSpan(input)
-        }
-
         toggleEditWordField(wordField);
-        $(e.target).hide();
+    }
 
-    });
+    function replaceAllToSpan(wordField) {
+        for (var input of $(wordField).children()) {
+            replaceToSpan(input);
+        }
+    }
+
+    function replaceToSpan(input) {
+        var value = $(input).val();
+        var span = document.createElement('span');
+        console.log(value);
+        $(span).text(value);
+        $(input).replaceWith(span);
+    }
+
+    function replaceAllToInput(wordField) {
+        for (var span of $(wordField).children()) {
+            replaceToInput(span);
+        }
+    }
+
+    function replaceToInput(span) {
+        var oldValue = $(span).text();
+        var input = document.createElement('input');
+        input.setAttribute('class', 'form-control');
+        input.value = oldValue;
+        $(input).click((e) => {
+            e.stopPropagation();
+        })
+        $(span).replaceWith(input);
+    }
 
     function saveEdited(wordSlug, newValue, newTranscription, newTranslation) {
         $.ajax({
@@ -242,12 +277,4 @@ $(document).ready(function() {
             success: (data) => {},
         });
     }
-
-    function replaceToSpan(input) {
-        var value = $(input).val();
-        var span = document.createElement('span');
-        $(span).text(value);
-        $(input).replaceWith(span);
-    }
-
 });

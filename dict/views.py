@@ -52,6 +52,7 @@ def delete_word(request):
     if request.is_ajax():
         data = request.POST
         word_slug = data.get('word_slug')
+        print(word_slug)
         word = models.Word.objects.get(slug=word_slug)
         word.delete()
         return HttpResponse('')
@@ -67,7 +68,7 @@ def edit_word(request):
         new_value = data.get('new_value')
         new_transcription = data.get('new_transcription')
         new_translation = data.get('new_translation')
-
+        print(word_slug)
         word = models.Word.objects.get(slug=word_slug)
 
         word.value = new_value
