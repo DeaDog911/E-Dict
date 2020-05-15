@@ -10,16 +10,11 @@
     padding: 10px;
 }
 
-.dict-container p{
-    width: 0;
-    z-index: 5;
-}
-
 .word-list {
     margin-bottom: 50px;
 }
 
-.dict-header,
+.word-list-header,
 .word-field {
     width: 100%;
     display: flex;
@@ -36,6 +31,7 @@
     border-top: 0;
 }
 
+.dict-header img,
 .edit-word-field img{
     float: right;
     width: 30px;
@@ -46,4 +42,15 @@
 .save-edited {
     float: right;
     display: none;
+}
+
+.dict-header {
+    z-index: 5;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dict-header span,
+.dict-header input {
+    max-width: 500px;
 }

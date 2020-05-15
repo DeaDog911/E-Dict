@@ -7,13 +7,23 @@
     <div class="dicts-list">
         {% for dict in dictionaries %}
             <div class="dict-container" id="{{ dict.slug }}">
-                <p>{{ dict }}</p>
+
+                <div class="dict-header">
+                    <span>{{ dict }}</span>
+                    <div>
+                        <img class="delete-dict" src="{% static 'images/delete.svg' %}" alt="">
+                        <img class="edit-dict" src="{% static 'images/edit.svg' %}" alt="">
+                        <button class="save-edited-dict btn btn-success" style="display: none;">Сохранить</button>
+                    </div>
+                </div>
+
                 <div class="words-list" style="display: none;">
-                    <div class="dict-header">
+                    <div class="word-list-header">
                         <span>Слово</span>
                         <span>Транскрипция</span>
                         <span>Перевод</span>
                     </div>
+
                     {% for word in dict.words.iterator %}
                         <div class="word-container" id="{{ word.slug }}">
                             <div class="word-field">

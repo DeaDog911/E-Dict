@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-
     var csrftoken = $.cookie('csrftoken');
 
     function csrfSafeMethod(method) {
@@ -23,8 +22,8 @@ $(document).ready(function() {
         $(wordCreateForm).toggle();
     });
 
-    $('.dict-container').click((e) => {
-        var container = e.target;
+    $('.dict-header').click((e) => {
+        var container = e.target.parentElement;
         var wordList = $(container).find('.words-list');
         $(wordList).toggle();
     });
@@ -32,6 +31,68 @@ $(document).ready(function() {
     $('#open-create-dict-form').click((e) => {
         $('#create-dict-form').toggle();
     });
+
+
+    $('.delete-dict').click((e) => {
+        deleteDict(e.target.parentElement.parentElement.parentElement);
+    })
+
+    function deleteDict(dict) {
+        var dictSlug = dict.id;
+        $.ajax({
+            type: 'POST',
+            url: 'delete_dict',
+            data: {
+                'dict_slug': dictSlug,
+            },
+            success: (data) => {
+                var dictList = dict.parentElement;
+                dictList.removeChild(dict);
+            },
+        });
+    }
+
+    $('.edit-dict').click((e) => {
+        var dictContainer = e.target.parentElement.parentElement.parentElement;
+        toggleEditDict(dictContainer);
+    })
+
+    function toggleEditDict(dictContainer) {
+        var dictHeader = $(dictContainer).find('.dict-header')
+        var el = $(dictHeader).children().first();
+
+        if ($(el).is('span'))
+            replaceToInput(el);
+        else
+            replaceToSpan(el);
+
+        var saveEditedBtn = $(dictHeader).find('.save-edited-dict');
+
+        $(saveEditedBtn).toggle();
+    }
+
+    $('.save-edited-dict').click((e) => {
+        var dictHeader = e.target.parentElement.parentElement;
+        var dictContainer = dictHeader.parentElement;
+        var dictSlug = dictContainer.id;
+        console.log()
+        var newTitle = $(dictHeader).find('input').val();
+        saveEditedDict(dictSlug, newTitle);
+        toggleEditDict(dictContainer);
+    })
+
+    function saveEditedDict(dictSlug, newTitle) {
+        $.ajax({
+            type: 'POST',
+            url: 'edit_dict',
+            data: {
+                'dict_slug': dictSlug,
+                'new_title': newTitle,
+            },
+            success: (data) => {
+            },
+        })
+    }
 
     $('.add-word-btn').click((e) => {
         e.preventDefault();
@@ -62,6 +123,7 @@ $(document).ready(function() {
                 var wordSlug = data;
                 var newWordContainer = createWordContainer(wordSlug, value, transcription, translation)
                 $(openFormBtn).before(newWordContainer);
+                $(wordCreateForm).hide();
             },
         });
     }
@@ -228,28 +290,29 @@ $(document).ready(function() {
         var newTranscription = $(wordField).children().eq(1).val();
         var newTranslation = $(wordField).children().eq(2).val();
 
-        saveEdited(wordSlug, newValue, newTranscription, newTranslation);
+        saveEditedWord(wordSlug, newValue, newTranscription, newTranslation);
 
         toggleEditWordField(wordField);
     }
 
     function replaceAllToSpan(wordField) {
-        for (var input of $(wordField).children()) {
-            replaceToSpan(input);
+        for (var el of $(wordField).children()) {
+            if ($(el).is('input'))
+                replaceToSpan(el);
         }
     }
 
     function replaceToSpan(input) {
         var value = $(input).val();
         var span = document.createElement('span');
-        console.log(value);
         $(span).text(value);
         $(input).replaceWith(span);
     }
 
     function replaceAllToInput(wordField) {
-        for (var span of $(wordField).children()) {
-            replaceToInput(span);
+        for (var el of $(wordField).children()) {
+            if ($(el).is('span'))
+                replaceToInput(el);
         }
     }
 
@@ -264,7 +327,7 @@ $(document).ready(function() {
         $(span).replaceWith(input);
     }
 
-    function saveEdited(wordSlug, newValue, newTranscription, newTranslation) {
+    function saveEditedWord(wordSlug, newValue, newTranscription, newTranslation) {
         $.ajax({
             type: 'POST',
             url: 'edit_word',
@@ -277,4 +340,6 @@ $(document).ready(function() {
             success: (data) => {},
         });
     }
+
+
 });

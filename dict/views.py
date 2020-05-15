@@ -33,6 +33,35 @@ def create_dict(request):
         raise Http404
 
 
+def delete_dict(request):
+    if request.is_ajax():
+        data = request.POST
+        dict_slug = data.get('dict_slug')
+        print(dict_slug)
+        dictionary = models.Dictionary.objects.get(slug=dict_slug)
+        dictionary.delete()
+        return HttpResponse('')
+    else:
+        raise Http404
+
+
+def edit_dict(request):
+    if request.is_ajax():
+        data = request.POST
+
+        dict_slug = data.get('dict_slug')
+        new_title = data.get('new_title')
+
+        dictionary = models.Dictionary.objects.get(slug=dict_slug)
+
+        dictionary.title = new_title
+
+        dictionary.save()
+        return HttpResponse('')
+    else:
+        raise Http404
+
+
 def create_word(request):
     if request.is_ajax():
         data = request.POST
