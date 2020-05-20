@@ -4,7 +4,7 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.DictionaryListView.as_view(), name='dict_list_url'),
+    path('', views.DictionaryListView.as_view(), name='foreign_dict_list_url'),
     path('create_dict', views.create_dict, name='create_dict_url'),
     path('delete_dict', views.delete_dict, name='delete_dict_url'),
     path('edit_dict', views.edit_dict, name='edit_dict_url'),

@@ -1,8 +1,8 @@
-{% extends 'dict/base_dict.html' %}
+{% extends 'definitions/base_definitions.html' %}
 {% load static %}
 
 {% block content %}
-    <link rel="stylesheet" href="{% static 'styles/dict.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/definitions.css' %}">
 
     <div class="dicts-list">
         {% for dict in dictionaries %}
@@ -10,10 +10,7 @@
 
                 <div class="dict-header">
                     <div class="about-dict">
-                        <span>Название: {{ dict }}</span>
-                        {% if dict.language %}
-                            <span class="mr-2">Язык: {{ dict.language }}</span>
-                        {% endif %}
+                        Название: <span>{{ dict }}</span>
                     </div>
                     <div>
                         <img class="delete-dict" src="{% static 'images/delete.svg' %}" alt="">
@@ -23,23 +20,17 @@
                 </div>
 
                 <div class="words-list" style="display: none;">
-                    <div class="word-list-header">
-                        <span>Слово</span>
-                        <span>Транскрипция</span>
-                        <span>Перевод</span>
-                    </div>
-
                     {% for word in dict.words.iterator %}
                         <div class="word-container" id="{{ word.slug }}">
                             <div class="word-field">
-                                <span class="value">{{ word.value }}</span>
-                                <span class="transcription">{{ word.transcription }}</span>
-                                <span class="translation">{{ word.translation }}</span>
+                                <span>{{ word.value }}</span>
+                                <br>
+                                <span>{{ word.definition }}</span>
                             </div>
                             <div class="edit-word-field" style="display: none;">
                                 <img class="delete-word" src="{% static 'images/delete.svg' %}" alt="">
                                 <img class="edit-word" src="{% static 'images/edit.svg' %}" alt="">
-                                <button class="save-edited btn btn-success">Сохранить</button>
+                                <button class="save-edited btn btn-success" style="display: none;">Сохранить</button>
                             </div>
                         </div>
                     {% endfor %}
@@ -47,8 +38,7 @@
                     <button class="open-form-btn btn btn-primary mt-2">Добавить новое слово</button>
                     <form class="form-inline mt-2 " style="display: none;" action="">
                         <input class="form-control mr-2" type="text" name="value" placeholder="Значение">
-                        <input class="form-control mr-2" type="text" name="transcription" placeholder="Транскрипция">
-                        <input class="form-control mr-2" type="text" name="translation" placeholder="Перевод">
+                        <textarea maxlength="500" rows=5 cols=50 class="form-control mt-4 mr-2" name="definition" editable="false" placeholder="Описание"></textarea>
 
                         <button class="btn btn-success add-word-btn">Добавить</button>
                     </form>
@@ -57,12 +47,12 @@
             </div>
         {% endfor %}
         <button id="open-create-dict-form" class="btn btn-primary mt-4 mb-4">Создать новый словарь</button>
-        <form id="create-dict-form" action="{% url 'create_dict_url' %}" style="display: none;" method="POST">
+        <form id="create-dict-form" action="{% url 'create_dict_definition_url' %}" style="display: none;" method="POST">
             {% csrf_token %}
             {{ create_dict_form.as_p }}
             <button class="btn btn-success">Создать</button>
         </form>
     </div>
 
-    <script type="module" src="{% static 'scripts/dict.js' %}"></script>
+    <script type="module" src="{% static 'scripts/definitions.js' %}"></script>
 {% endblock %}

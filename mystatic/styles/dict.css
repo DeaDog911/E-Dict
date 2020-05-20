@@ -1,17 +1,25 @@
+body {
+
+}
+
 .dicts-list {
-    width: 60%;
+    width: 70%;
+    height: 100%;
     margin: 20px auto 0 auto;
+    padding: 20px;
 }
 
 .dict-container {
     border: 1px solid grey;
+    border-radius: 5px;
     z-index: 10;
     cursor: pointer;
     padding: 10px;
+    margin-bottom: 5px;
 }
 
-.word-list {
-    margin-bottom: 50px;
+.words-list {
+    margin-top: 10px;
 }
 
 .word-list-header,
@@ -48,9 +56,20 @@
     z-index: 5;
     display: flex;
     justify-content: space-between;
+
 }
 
 .dict-header span,
 .dict-header input {
     max-width: 500px;
+}
+
+.word-list-header,
+.word-field {
+    width: 100%;
+    display: flex;
+    min-height: 40px;
+    justify-content: space-between;
+    border: 1px solid grey;
+    padding: 10px;
 }

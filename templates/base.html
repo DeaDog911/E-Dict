@@ -6,6 +6,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="{% static 'images/E-dict.png' %}">
+    <img src="" alt="">
     <!-- Styles -->
     <link rel="stylesheet" href="{% static 'styles/base.css' %}">
     <!-- Bootstrap -->
@@ -26,12 +28,41 @@
             crossorigin="anonymous"></script>
 
     <script src="{% static 'scripts/carhartl-jquery-cookie-92b7715/jquery.cookie.js' %}"></script>
+    <script type="module" src="{% static 'scripts/base.js' %}"></script>
     <title>Dictionary</title>
 </head>
 <body>
-    <div class="wrapper container-fluid">
-        {% block content %}
-        {% endblock %}
+    <div class="container-fluid">
+        <!-- Nav bar -->
+        <nav class="navbar navbar-expand-lg navbar-light mt-0" style="background-color: #28B066">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'images/E-dict.png' %}" width="30" height="30" alt="">
+                E-dict
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarNav" aria-controls="navbarNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           Словари
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                          <a class="dropdown-item" href="{% url 'foreign_dict_list_url' %}">Словари иностранных слов</a>
+                          <a class="dropdown-item" href="{% url 'definitions_dict_list_url' %}">Словари определений</a>
+                        </div>
+                      </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="wrapper">
+            {% block content %}
+            {% endblock %}
+        </div>
     </div>
 </body>
 </html>
