@@ -55,29 +55,52 @@ $(document).ready(function() {
 
     function addNewWord(wordCreateForm) {
         var value = $(wordCreateForm).find('[name=value]').val();
-        var definition = $(wordCreateForm).find('[name=definition]').val();
 
         var wordsList = wordCreateForm.parentElement;
         var dictionaryContainer = wordsList.parentElement;
         var dictionary_slug = dictionaryContainer.id;
 
+        var data = {};
+
+        if (wordCreateForm.classList.contains('form-manually')) {
+            var definition = $(wordCreateForm).find('[name=definition]').val();
+
+            data = {
+                'value': value,
+                'definition': definition,
+                'dictionary_slug': dictionary_slug,
+            };
+
+        } else if (wordCreateForm.classList.contains('form-auto')) {
+            var selectLang = $($(wordCreateForm).children().first()).find('select.definition-lang');
+            var lang = $($(selectLang).find('option:selected')).attr('name');
+
+            data = {
+                'value': value,
+                'dictionary_slug': dictionary_slug,
+                'lang': lang,
+            };
+        }
+
         $.ajax({
             type: 'POST',
             url: 'create_word',
-            data: {
-                'value': value,
-                'definition': definition,
-                'dict_slug': dictionary_slug,
-            },
+            data: data,
             success: (data) => {
-                var openFormBtn = $(wordCreateForm.parentElement).find('.open-form-btn');
-                var wordSlug = data;
-                var newWordContainer = createWordContainer(wordSlug, value, definition)
-                $(openFormBtn).before(newWordContainer);
-                $(wordCreateForm).hide();
+                addNewWordToWordsList(value, data, wordCreateForm)
+            },
+            complete: () => {
+                base.closeCreateWordForm(wordCreateForm);
             },
         });
     }
+
+    function addNewWordToWordsList(value, data, wordCreateForm) {
+        var openFormBtn = $(wordCreateForm.parentElement).find('.open-form-btn');
+        var newWordContainer = createWordContainer(data['word_slug'], value, data['definition']);
+        $(openFormBtn).before(newWordContainer);
+        $(wordCreateForm).hide();
+   }
 
     function createWordContainer(wordSlug, value, definition) {
         var newWordContainer = document.createElement('div');
@@ -158,7 +181,15 @@ $(document).ready(function() {
 
     $('.edit-word').click((e) => {
         var editWordField = e.target.parentElement;
-        editWord(editWordField);
+        var wordField = $(editWordField.parentElement).find('.word-field')[0];
+
+        if ($(wordField).hasClass('edit')) {
+            base.toggleEditWordField(wordField);
+            $(wordField).removeClass('edit');
+        } else {
+            $(wordField).toggleClass('edit');
+            editWord(editWordField);
+        }
     });
 
     function editWord(editWordField) {
@@ -202,5 +233,12 @@ $(document).ready(function() {
             success: (data) => {},
         });
     }
+
+    $('.switch').on('change', (e) => {
+        var formManually = $(e.target.parentElement.parentElement.parentElement).find('.form-manually');
+        var formAuto = $(e.target.parentElement.parentElement.parentElement).find('.form-auto');
+        $(formManually).toggle();
+        $(formAuto).toggle();
+    })
 
 })

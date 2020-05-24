@@ -3,10 +3,11 @@ from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.http import HttpResponse
 from django.http import Http404
+from django.http import JsonResponse
 
 from . import models
 from . import forms
-
+from . import util
 
 class DictionaryListView(ListView):
     template_name = 'definitions/definitions.html'
@@ -66,11 +67,21 @@ def create_word(request):
         data = request.POST
         value = data.get('value')
         definition = data.get('definition')
-        dict_slug = data.get('dict_slug')
+        lang = data.get('lang')
+        dict_slug = data.get('dictionary_slug')
         dict = models.Dictionary.objects.get(slug=dict_slug)
+
+        print(dict_slug)
+
+        if not definition:
+            definition = util.find_definition(value, lang)
+
         new_word = models.Word(value=value, definition=definition, dictionary=dict)
         new_word.save()
-        return HttpResponse(new_word.slug)
+        return JsonResponse({
+            'word_slug': new_word.slug,
+            'definition': definition,
+        })
     else:
         raise Http404
 

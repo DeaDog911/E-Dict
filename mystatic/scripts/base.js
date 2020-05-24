@@ -26,6 +26,7 @@ export function toggleEditWordField(wordField) {
         } catch(e) {
             $(wordField).css('border-bottom: 0');
         }
+
     }else {
         $(editWordField).hide();
         try {
@@ -70,6 +71,13 @@ export function replaceToInput(span) {
     $(span).replaceWith(input);
 }
 
+export function closeCreateWordForm(wordCreateForm) {
+    $(wordCreateForm).hide();
+    var parent = wordCreateForm.parentElement;
+    var toggleBox = $(parent).find('.toggleBox');
+    $(toggleBox).hide();
+}
+
 $(document).ready(() => {
 
     var csrftoken = $.cookie('csrftoken');
@@ -89,7 +97,6 @@ $(document).ready(() => {
 
 
     $('#open-create-dict-form').click((e) => {
-        console.log('hhhh');
         $('#create-dict-form').toggle();
     });
 
@@ -101,8 +108,10 @@ $(document).ready(() => {
 
     $('.open-form-btn').click((e) => {
         var parent = e.target.parentElement;
-        var wordCreateForm = $(parent).find('form');
+        var wordCreateForm = $(parent).find('.form-auto');
         $(wordCreateForm).toggle();
+        var toggleBox = $(parent).find('.toggleBox');
+        $(toggleBox).toggle();
     });
 
     $('.delete-word').click((e) => {
@@ -138,7 +147,5 @@ $(document).ready(() => {
     $('input').click((e) => {
         e.stopPropagation();
     })
-
-
 
 })

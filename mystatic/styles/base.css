@@ -78,3 +78,73 @@ textarea {
 .dict-header input {
     max-width: 500px;
 }
+
+select {
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+}
+
+/** Switch **/
+
+input[type="checkbox"] {
+    width: 80px;
+    height: 30px;
+    background: #bdc3c7;
+    -webkit-appearance: none;
+    border-radius: 20px;
+    outline: none;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+input:checked[type="checkbox"] {
+    background: #0067D4;
+}
+
+input[type="checkbox"]::before {
+    z-index: 2;
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: 5px;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50px;
+    transform: scale(1.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: .4s;
+
+}
+
+input:checked[type="checkbox"]::before {
+    left: 50px;
+}
+
+.toggle {
+    position: relative;
+    display: inline;
+}
+
+
+label {
+    margin-top: 10px;
+    position: absolute;
+    color: #fff;
+    font-weight: 30px;
+    font-size: 15px;
+    pointer-events: none;
+}
+
+
+.onbtn {
+    bottom: 1px;
+    left: 10px;
+}
+
+.offbtn {
+    bottom: 1px;
+    right: 10px;
+    color: #34495e;
+}

@@ -3,9 +3,11 @@ from django.shortcuts import redirect
 from django.views.generic.list import ListView
 from django.http import Http404
 from django.http import HttpResponse
+from django.http import JsonResponse
 
 from . import models
 from . import forms
+from . import util
 
 
 class DictionaryListView(ListView):
@@ -50,10 +52,14 @@ def edit_dict(request):
 
         dict_slug = data.get('dict_slug')
         new_title = data.get('new_title')
+        new_language = data.get('new_language')
 
         dictionary = models.Dictionary.objects.get(slug=dict_slug)
 
         dictionary.title = new_title
+
+        if new_language:
+            dictionary.language = new_language
 
         dictionary.save()
         return HttpResponse('')
@@ -68,10 +74,25 @@ def create_word(request):
         transcription = data.get('transcription')
         translation = data.get('translation')
         dictionary_slug = data.get('dictionary_slug')
+
         dictionary = models.Dictionary.objects.get(slug=dictionary_slug)
-        new_word = models.Word(value=value, transcription=transcription, translation=translation, dictionary=dictionary)
+
+        if not translation and not transcription:
+            lang_from = data.get('lang_from')
+            lang_to = data.get('lang_to')
+            transcription, translation = util.translate(value,  lang_from, lang_to)
+
+        new_word = models.Word(value=value,
+                               transcription=transcription,
+                               translation=translation,
+                               dictionary=dictionary)
+
         new_word.save()
-        return HttpResponse(new_word.slug)
+        return JsonResponse({
+            'word_slug': new_word.slug,
+            'transcription': transcription,
+            'translation': translation,
+        })
     else:
         raise Http404
 
