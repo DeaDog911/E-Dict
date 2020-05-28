@@ -1,0 +1,22 @@
+{% extends 'user_actions/base_user_actions.html' %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'styles/profile.css' %}">
+
+    <form action="{% url 'profile_url' %}" method="POST" >{% csrf_token %}
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" name="email" value="{{ user.email }}">
+        </div>
+        <div class="form-group">
+            <label for="username">Имя пользователя</label>
+            <input type="text" class="form-control" name="username" value="{{ user.username }}">
+        </div>
+        <button class="save-profile btn btn-success">
+            Сохранить
+        </button>
+    </form>
+
+    <script src="{% static 'scripts/profile.js' %}"></script>
+{% endblock %}
