@@ -2,6 +2,15 @@ html {
     hyphens: auto;
 }
 
+label {
+    margin-top: 10px;
+    position: absolute;
+    color: #fff;
+    font-weight: 30px;
+    font-size: 15px;
+    pointer-events: none;
+}
+
 .word-field {
     overflow-wrap: break-word;  /* не поддерживает IE, Firefox; является копией word-wrap */
     word-wrap: break-word;

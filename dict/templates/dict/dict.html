@@ -10,7 +10,7 @@
 
                 <div class="dict-header">
                     <div class="about-dict">
-                            Название: <span class="mr-5">{{ dict }}</span>
+                            Название: <span>{{ dict }}</span>
                         {% if dict.language %}
                             Язык: <span >{{ dict.language }}</span>
                         {% endif %}
@@ -81,6 +81,7 @@
 
                 </div>
             </div>
+
         {% endfor %}
         <button id="open-create-dict-form" class="btn btn-primary mt-4 mb-4">Создать новый словарь</button>
         <form id="create-dict-form" action="{% url 'create_dict_url' %}" style="display: none;" method="POST">

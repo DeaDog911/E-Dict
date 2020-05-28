@@ -34,7 +34,7 @@
 <body>
     <div class="container-fluid">
         <!-- Nav bar -->
-        <nav class="navbar navbar-expand-lg navbar-light mt-0" style="background-color: #28B066">
+        <nav class="navbar navbar-expand-lg navbar-light mt-0 mb-5" style="background-color: #28B066">
             <a class="navbar-brand" href="#">
                 <img src="{% static 'images/E-dict.png' %}" width="30" height="30" alt="">
                 E-dict
@@ -44,8 +44,9 @@
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown active">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                            Словари
@@ -54,10 +55,23 @@
                           <a class="dropdown-item" href="{% url 'foreign_dict_list_url' %}">Словари иностранных слов</a>
                           <a class="dropdown-item" href="{% url 'definitions_dict_list_url' %}">Словари определений</a>
                         </div>
-                      </li>
+                    </li>
                 </ul>
+                <div class="profile-information">
+                </div>
+                 <div class="profile-information-block">
+                    <ul>
+                        <li>
+                            <a href="{% url 'profile_url' %}">Настройки</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'logout' %}">Выйти</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
+
 
         <div class="wrapper">
             {% block content %}

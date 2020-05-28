@@ -144,8 +144,15 @@ $(document).ready(() => {
         toggleEditWordField(wordField);
     });
 
-    $('input').click((e) => {
+    $('input,span').click((e) => {
         e.stopPropagation();
+    })
+
+    $('.profile-information').click((e) => {
+        if ($('.profile-information-block').css('opacity') == 0)
+            $('.profile-information-block').css('opacity', 1);
+        else
+            $('.profile-information-block').css('opacity', 0);
     })
 
 })

@@ -4,12 +4,17 @@ from django.views.generic import ListView
 from django.http import HttpResponse
 from django.http import Http404
 from django.http import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from . import models
 from . import forms
 from . import util
 
-class DictionaryListView(ListView):
+
+class DictionaryListView(LoginRequiredMixin, ListView):
+    login_url = 'login'
+    redirect_field_name = 'redirect_to'
+
     template_name = 'definitions/definitions.html'
     model = models.Dictionary
 

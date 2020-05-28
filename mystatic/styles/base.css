@@ -5,6 +5,56 @@
 body {
 }
 
+
+.profile-information {
+    background: #DCDAD5;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.profile-information-block {
+    opacity: 0;
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    border: 1px solid grey;
+    border-bottom: none;
+    transition: opacity ease 0.1s;
+    transition-property: transform, opacity;
+    transition-duration: 0.1s, 0.1s;
+    transition-timing-function: ease, ease;
+    transition-delay: 0s, 0s;
+}
+
+.profile-information-block ul li {
+    padding: 10px;
+    list-style-type: none;
+    width: 200px;
+    height: 50px;
+    border-bottom: 1px solid grey;
+    box-sizing: border-box;
+    display: list-item;
+}
+
+.profile-information-block ul li a {
+    width: 200px;
+    height: 50px;
+    display: block;
+    color: #28B066;
+}
+.profile-information-block ul li:hover {
+    background: #DBDBDB;
+}
+.profile-information-block ul li a:hover,
+.profile-information-block ul li a:focus {
+    text-decoration: none;
+
+}
+
 textarea {
     width: 90%;
     height: 200px;
@@ -13,6 +63,11 @@ textarea {
 
 .wrapper {
 
+}
+
+.about-dict input,
+.about-dict span {
+    margin-right: 50px;
 }
 
 .navbar {
@@ -125,16 +180,6 @@ input:checked[type="checkbox"]::before {
 .toggle {
     position: relative;
     display: inline;
-}
-
-
-label {
-    margin-top: 10px;
-    position: absolute;
-    color: #fff;
-    font-weight: 30px;
-    font-size: 15px;
-    pointer-events: none;
 }
 
 

@@ -10,4 +10,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('dictionary/foreign/', include('dict.urls')),
     path('dictionary/definitions/', include('definitions.urls')),
+    path('user/', include('user_actions.urls')),
 ]

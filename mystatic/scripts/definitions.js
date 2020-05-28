@@ -156,7 +156,7 @@ $(document).ready(function() {
         deleteImg.setAttribute('src', '../../static/images/delete.svg');
 
         $(deleteImg).click((e) => {
-            deleteWord(newEditWordField);
+            super.deleteWord(newEditWordField);
         })
 
         var editImg = document.createElement('img');

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -10,7 +11,10 @@ from . import forms
 from . import util
 
 
-class DictionaryListView(ListView):
+class DictionaryListView(LoginRequiredMixin, ListView):
+    login_url = 'login'
+    redirect_field_name = 'redirect_to'
+
     model = models.Dictionary
     template_name = 'dict/dict.html'
 
