@@ -1,0 +1,14 @@
+{% extends 'exams/base_exams.html' %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'styles/exams.css' %}">
+    <div class="result">
+        <p>Results:</p>
+        <p>Correct answers: {{ correct_answers_count }}/{{ answers_count }}</p>
+        <p>Incorrect answers: {{ incorrect_answers_count }}/{{ answers_count }}</p>
+        <form action="{% url 'start_exam_url' %}">
+            <button class="btn btn-success">Back</button>
+        </form>
+    </div>
+{% endblock %}

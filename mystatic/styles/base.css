@@ -6,7 +6,8 @@ body {
 }
 
 
-.profile-information {
+.profile-information,
+.profile-information img{
     background: #DCDAD5;
     width: 40px;
     height: 40px;
@@ -15,7 +16,6 @@ body {
 }
 
 .profile-information-block {
-    opacity: 0;
     width: 200px;
     height: 100px;
     position: absolute;
@@ -23,11 +23,8 @@ body {
     right: 20px;
     border: 1px solid grey;
     border-bottom: none;
-    transition: opacity ease 0.1s;
-    transition-property: transform, opacity;
-    transition-duration: 0.1s, 0.1s;
-    transition-timing-function: ease, ease;
-    transition-delay: 0s, 0s;
+    background: #fff;
+    display: none;
 }
 
 .profile-information-block ul li {
@@ -38,6 +35,7 @@ body {
     border-bottom: 1px solid grey;
     box-sizing: border-box;
     display: list-item;
+
 }
 
 .profile-information-block ul li a {
@@ -62,7 +60,16 @@ textarea {
 }
 
 .wrapper {
-
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    overflow: auto;
 }
 
 .about-dict input,
@@ -72,12 +79,13 @@ textarea {
 
 .navbar {
     margin-top: 0;
+    z-index: 50;
 }
 
 .dicts-list {
     width: 70%;
     height: 100%;
-    margin: 20px auto 0 auto;
+    margin-top: 200px;
     padding: 20px;
 }
 
@@ -154,7 +162,7 @@ input[type="checkbox"] {
 }
 
 input:checked[type="checkbox"] {
-    background: #0067D4;
+    background: #007bff;
 }
 
 input[type="checkbox"]::before {
@@ -182,14 +190,62 @@ input:checked[type="checkbox"]::before {
     display: inline;
 }
 
+.onbtn, .offbtn {
+    position: absolute;
+    bottom: -1px;
+}
 
 .onbtn {
-    bottom: 1px;
     left: 10px;
+    color: #fff;
 }
 
 .offbtn {
-    bottom: 1px;
-    right: 10px;
-    color: #34495e;
+    color: black;
+    left: 50px;
 }
+
+.color-select {
+}
+
+.color-block {
+    margin-top: 10px;
+    width: 30px;
+    height: 30px;
+    border: 2px solid grey;
+    display: inline-block;
+}
+
+.color-block.selected {
+    border: 2px solid blue;
+}
+
+
+.sort-dicts,
+.sort-words {
+
+}
+
+.sorted-fields {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.sorted-fields a{
+    margin-right: 20px;
+    text-decoration: underline;
+}
+
+.sorted-fields a:hover{
+    color: blue;
+}
+
+.hide{
+    display: none;
+}
+
+.align-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+

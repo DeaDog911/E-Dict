@@ -1,0 +1,32 @@
+{% extends 'exams/base_exam.html' %}
+{% load static %}
+
+{% block content %}
+    <form action="done/" method="POST" id="questions-form" class="align-center">{% csrf_token %}
+        {% for question in question_dict.questions %}
+            {% if question.question_group == 'choose' %}
+                <div class="question hide" data-word-slug="{{ question.word_slug }}" data-question-type="{{ question.question_type }}" data-question-group="{{ question.question_group }}" >
+                    <p>{{ question.question_type }}</p>
+                    <p>{{ question.base_field_value }}</p>
+                    <div class="options">
+                        {% for option in question.options.options %}
+                            <p><input type="radio" name="{{ question.word_slug }}?{{ question.question_type }}" data-value="{{ option }}">{{ option }}</p>
+                        {% endfor %}
+                    </div>
+                    <button class="next">{% if questions.count > 1 %}Next{% else %}Done{% endif %}</button>
+                </div>
+            {% elif question.question_group == 'input' %}
+                <div class="question hide" data-word-slug="{{ question.word_slug }}" data-question-type="{{ question.question_type }}" data-question-group="{{ question.question_group }}" >
+                    <p>{{ question.question_type }}</p>
+                    <p>{{ question.field_value.base_field }}</p>
+                    <div>
+                        <input type="text" name="{{ question.word_slug }}?{{ question.question_type }}">
+                    </div>
+                    <button class="next">{% if questions.count > 1 %}Next{% else %}Done{% endif %}</button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </form>
+
+    <script src="{% static 'scripts/foreign_exam.js' %}"></script>
+{% endblock %}

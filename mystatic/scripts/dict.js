@@ -2,11 +2,14 @@ import * as base from './base.js';
 
 $(document).ready(function() {
 
+    /******************* Add new Word ******************/
+
      $('.add-word-btn').click((e) => {
         e.preventDefault();
         var wordCreateForm = e.target.parentElement;
         addNewWord(wordCreateForm);
     })
+
 
     function addNewWord(wordCreateForm) {
         var value = $(wordCreateForm).find('[name=value]').val();
@@ -14,6 +17,14 @@ $(document).ready(function() {
         var wordsList = wordCreateForm.parentElement;
         var dictionaryContainer = wordsList.parentElement;
         var dictionary_slug = dictionaryContainer.id;
+
+        var selectColorBlock = $(wordCreateForm).find(".color-select");
+        var selectedColorBlock = $(selectColorBlock).find(".color-block.selected");
+
+        var color = $(selectedColorBlock).attr('name');
+
+        if (color === undefined)
+            color = ''
 
         var data = null;
         if (wordCreateForm.classList.contains('form-manually')) {
@@ -25,6 +36,7 @@ $(document).ready(function() {
                 'transcription': transcription,
                 'translation': translation,
                 'dictionary_slug': dictionary_slug,
+                'color': color,
             };
 
         } else if (wordCreateForm.classList.contains('form-auto')) {
@@ -39,6 +51,7 @@ $(document).ready(function() {
                 'dictionary_slug': dictionary_slug,
                 'lang_from': langFrom,
                 'lang_to': langTo,
+                'color': color,
             };
         }
 
@@ -58,10 +71,92 @@ $(document).ready(function() {
 
    function addNewWordToWordsList(value, data, wordCreateForm) {
         var openFormBtn = $(wordCreateForm.parentElement).find('.open-form-btn');
-        var newWordContainer = createWordContainer(data['word_slug'], value, data['transcription'], data['translation'])
+        var newWordContainer = createWordContainer(data['word_slug'], value, data['transcription'], data['translation']);
+        newWordContainer.style.backgroundColor = data['color'];
         $(openFormBtn).before(newWordContainer);
    }
 
+
+   function createWordContainer(wordSlug, value, transcription, translation) {
+        var newWordContainer = document.createElement('div');
+        newWordContainer.setAttribute('class', 'word-container');
+        newWordContainer.id = wordSlug;
+
+        var newWordField = createWordField(value, transcription, translation);
+        var newEditWordField = createEditWordField();
+        newWordContainer.appendChild(newWordField);
+        newWordContainer.appendChild(newEditWordField);
+
+        $(newWordField).click((e) => {
+            base.toggleEditWordField(newWordField);
+        })
+
+        var editImg = $(newEditWordField).find('.edit-word');
+        var saveEditedBtn = $(newEditWordField).find('.save-edited');
+
+
+        $(editImg).click((e) => {
+            editWord(newEditWordField);
+        })
+
+        return newWordContainer;
+    }
+
+   function createWordField(value, transcription, translation) {
+       var newWordField = document.createElement('div');
+       newWordField.setAttribute('class', 'word-field')        ;
+
+       var valueSpan = document.createElement('span');
+       valueSpan.innerHTML = value;
+
+       var transcriptionSpan = document.createElement('span');
+       transcriptionSpan.innerHTML = transcription;
+
+       var translationSpan = document.createElement('span');
+       translationSpan.innerHTML = translation;
+
+       newWordField.appendChild(valueSpan);
+       newWordField.appendChild(transcriptionSpan);
+       newWordField.appendChild(translationSpan);
+
+       return newWordField;
+   }
+
+    function createEditWordField() {
+        var newEditWordField = document.createElement('div');
+        newEditWordField.setAttribute('class', 'edit-word-field');
+
+        var deleteImg = document.createElement('img');
+        deleteImg.setAttribute('class', 'delete-word');
+        deleteImg.setAttribute('src', '../../static/images/delete.svg');
+
+        $(deleteImg).one('click', (e) => {
+            base.deleteWord(newEditWordField);
+        })
+
+        var editImg = document.createElement('img');
+        editImg.setAttribute('class', 'edit-word');
+        editImg.setAttribute('src', '../../static/images/edit.svg');
+
+
+        var saveEditedBtn = document.createElement('button');
+        saveEditedBtn.setAttribute('class', 'btn btn-success save-edited');
+        $(saveEditedBtn).text('Сохранить');
+        $(saveEditedBtn).hide();
+
+
+        newEditWordField.appendChild(deleteImg);
+        newEditWordField.appendChild(editImg);
+        newEditWordField.appendChild(saveEditedBtn);
+
+        newEditWordField.style.display = 'none';
+
+        return newEditWordField;
+    }
+
+
+
+    /******************** Edit dict **********************/
 
     $('.edit-dict').click((e) => {
         var dictContainer = e.target.parentElement.parentElement.parentElement;
@@ -114,84 +209,6 @@ $(document).ready(function() {
     }
 
 
-
-    function createWordContainer(wordSlug, value, transcription, translation) {
-        var newWordContainer = document.createElement('div');
-        newWordContainer.setAttribute('class', 'word-container');
-        newWordContainer.id = wordSlug;
-
-        var newWordField = createWordField(value, transcription, translation);
-        var newEditWordField = createEditWordField();
-        newWordContainer.appendChild(newWordField);
-        newWordContainer.appendChild(newEditWordField);
-
-        $(newWordField).click((e) => {
-            base.toggleEditWordField(newWordField);
-        })
-
-        var editImg = $(newEditWordField).find('.edit-word');
-        var saveEditedBtn = $(newEditWordField).find('.save-edited');
-
-
-        $(editImg).click((e) => {
-            editWord(newEditWordField);
-        })
-
-        return newWordContainer;
-    }
-
-    function createWordField(value, transcription, translation) {
-        var newWordField = document.createElement('div');
-        newWordField.setAttribute('class', 'word-field')        ;
-
-        var valueSpan = document.createElement('span');
-        valueSpan.innerHTML = value;
-
-        var transcriptionSpan = document.createElement('span');
-        transcriptionSpan.innerHTML = transcription;
-
-        var translationSpan = document.createElement('span');
-        translationSpan.innerHTML = translation;
-
-        newWordField.appendChild(valueSpan);
-        newWordField.appendChild(transcriptionSpan);
-        newWordField.appendChild(translationSpan);
-
-        return newWordField;
-    }
-
-    function createEditWordField() {
-        var newEditWordField = document.createElement('div');
-        newEditWordField.setAttribute('class', 'edit-word-field');
-
-        var deleteImg = document.createElement('img');
-        deleteImg.setAttribute('class', 'delete-word');
-        deleteImg.setAttribute('src', '../../static/images/delete.svg');
-
-        $(deleteImg).one('click', (e) => {
-            base.deleteWord(newEditWordField);
-        })
-
-        var editImg = document.createElement('img');
-        editImg.setAttribute('class', 'edit-word');
-        editImg.setAttribute('src', '../../static/images/edit.svg');
-
-
-        var saveEditedBtn = document.createElement('button');
-        saveEditedBtn.setAttribute('class', 'btn btn-success save-edited');
-        $(saveEditedBtn).text('Сохранить');
-        $(saveEditedBtn).hide();
-
-
-        newEditWordField.appendChild(deleteImg);
-        newEditWordField.appendChild(editImg);
-        newEditWordField.appendChild(saveEditedBtn);
-
-        newEditWordField.style.display = 'none';
-
-        return newEditWordField;
-    }
-
     function deleteWord(editWordField) {
         var wordContainer = editWordField.parentElement;
         var wordSlug = wordContainer.id;
@@ -208,18 +225,20 @@ $(document).ready(function() {
         });
     }
 
-    $('.edit-word').on('click', (e) => {
-        var editWordField = e.target.parentElement;
-        var wordField = $(editWordField.parentElement).find('.word-field')[0];
+    /************************ Edit word ************************/
 
-        if ($(wordField).hasClass('edit')) {
-            base.toggleEditWordField(wordField);
-            $(wordField).removeClass('edit');
-        } else {
-            $(wordField).toggleClass('edit');
-            editWord(editWordField);
-        }
-    });
+   $('.edit-word').on('click', (e) => {
+       var editWordField = e.target.parentElement;
+       var wordField = $(editWordField.parentElement).find('.word-field')[0];
+
+       if ($(wordField).hasClass('edit')) {
+           base.toggleEditWordField(wordField);
+           $(wordField).removeClass('edit');
+       } else {
+           $(wordField).toggleClass('edit');
+           editWord(editWordField);
+       }
+   });
 
     function editWord(editWordField) {
         var wordContainer = editWordField.parentElement;
@@ -230,9 +249,15 @@ $(document).ready(function() {
         var saveEditedBtn = $(editWordField).find('.save-edited');
         $(saveEditedBtn).show();
 
+        var colorSelect = $(wordContainer).find('.color-select');
+        $(colorSelect).show();
+
         $(saveEditedBtn).one('click', (e) => {
+            e.stopPropagation();
             prepareToEdit(editWordField);
             $(saveEditedBtn).hide();
+            var colorSelect = $(wordContainer).find('.color-select');
+            $(colorSelect).hide();
         })
     }
 
@@ -245,13 +270,20 @@ $(document).ready(function() {
         var newTranscription = $(wordField).children().eq(1).val();
         var newTranslation = $(wordField).children().eq(2).val();
 
-        saveEditedWord(wordSlug, newValue, newTranscription, newTranslation);
+        var newColor = $(editWordField).find(".color-select").find('.color-block.selected').attr('name');
+
+        if (newColor === undefined)
+            newColor = ''
+
+        saveEditedWord(wordSlug, newValue, newTranscription, newTranslation, newColor);
+
+        wordContainer.style.backgroundColor = newColor;
 
         base.toggleEditWordField(wordField);
     }
 
 
-    function saveEditedWord(wordSlug, newValue, newTranscription, newTranslation) {
+    function saveEditedWord(wordSlug, newValue, newTranscription, newTranslation, newColor) {
         $.ajax({
             type: 'POST',
             url: 'edit_word',
@@ -260,10 +292,12 @@ $(document).ready(function() {
                 'new_value': newValue,
                 'new_transcription': newTranscription,
                 'new_translation': newTranslation,
+                'new_color': newColor,
             },
             success: (data) => {},
         });
     }
+
 
     $('.switch').on('change', (e) => {
         var formManually = $(e.target.parentElement.parentElement.parentElement).find('.form-manually');

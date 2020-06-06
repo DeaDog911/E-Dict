@@ -14,7 +14,13 @@
             <input type="text" class="form-control" name="username" value="{{ user.username }}">
         </div>
         <button class="save-profile btn btn-success">
-            Сохранить
+            Save
+        </button>
+    </form>
+
+    <form action="{% url 'delete_profile_url' %}" class="mt-4">
+        <button class="btn btn-danger delete-profile">
+            Delete Profile
         </button>
     </form>
 

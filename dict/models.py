@@ -1,10 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 import datetime
+import time
 
 
-def get_slug(value, date):
-    return f'{value}-{date}'
+def get_slug(value):
+    time_slug = time.time()
+    time_slug = str(time_slug).replace('.', '')
+    return f'{value}_{time_slug}'
 
 
 class Dictionary(models.Model):
@@ -17,7 +21,7 @@ class Dictionary(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             self.date_create = datetime.datetime.now()
-            self.slug = get_slug(self.title, self.date_create)
+            self.slug = get_slug(self.title)
         super().save(*args, **kwargs)
 
     class Meta:
@@ -34,11 +38,12 @@ class Word(models.Model):
     slug = models.SlugField(max_length=50, blank=True)
     dictionary = models.ForeignKey(Dictionary, related_name='words', on_delete=models.CASCADE)
     date_create = models.DateTimeField()
+    color = models.CharField(max_length=7, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.id:
             self.date_create = datetime.datetime.now()
-            self.slug = get_slug(self.value, self.date_create)
+            self.slug = get_slug(self.value)
         super().save(*args, **kwargs)
 
     class Meta:

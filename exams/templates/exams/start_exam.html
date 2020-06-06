@@ -1,0 +1,41 @@
+{% extends 'exams/base_exams.html' %}
+{% load static %}
+
+{% block title %}
+    Exams
+{% endblock %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'styles/exams.css' %}">
+
+    <div class="align-center">
+        <div class="dicts-list">
+            <p>Foreign dictionaries</p>
+            <ul>
+                {% for foreign_dict in foreign_dictionaries.iterator %}
+                    {% if foreign_dict.words.count > 0 %}
+                        <li><a href="foreign/{{ foreign_dict.slug }}/">{{ foreign_dict }}</a></li>
+                    {% else %}
+                        <li class="empty_dict">{{ foreign_dict }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="dicts-list">
+            <p>Definitions dictionaries</p>
+            <ul>
+                {% for definition_dict in definitions_dictionaries.iterator %}
+                    {% if definition_dict.words.count > 0 %}
+                        <li><a href="definitions/{{ definition_dict.slug }}/">{{ definition_dict }}</a></li>
+                    {% else %}
+                        <li class="empty_dict">{{ definition_dict }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <script src="{% static 'scripts/exams.js' %}"></script>
+{% endblock %}

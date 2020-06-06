@@ -21,8 +21,16 @@ class DictionaryListView(LoginRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['dictionaries'] = context['object_list']
+        dicts_order_by = self.request.GET.get('dicts_order_by', '')
+
+        dictionaries = self.request.user.foreign_dictionaries
+
+        if dicts_order_by:
+            dictionaries = dictionaries.order_by(dicts_order_by)
+
+        context['dictionaries'] = dictionaries
         context['create_dict_form'] = forms.CreateDictForm()
+
         return context
 
 
@@ -78,6 +86,7 @@ def create_word(request):
         transcription = data.get('transcription')
         translation = data.get('translation')
         dictionary_slug = data.get('dictionary_slug')
+        color = data.get('color')
 
         dictionary = models.Dictionary.objects.get(slug=dictionary_slug)
 
@@ -89,13 +98,15 @@ def create_word(request):
         new_word = models.Word(value=value,
                                transcription=transcription,
                                translation=translation,
-                               dictionary=dictionary)
+                               dictionary=dictionary,
+                               color=color, )
 
         new_word.save()
         return JsonResponse({
             'word_slug': new_word.slug,
             'transcription': transcription,
             'translation': translation,
+            'color': color,
         })
     else:
         raise Http404
@@ -121,12 +132,14 @@ def edit_word(request):
         new_value = data.get('new_value')
         new_transcription = data.get('new_transcription')
         new_translation = data.get('new_translation')
-        print(word_slug)
+        new_color = data.get('new_color')
+
         word = models.Word.objects.get(slug=word_slug)
 
         word.value = new_value
         word.transcription = new_transcription
         word.translation = new_translation
+        word.color = new_color
 
         word.save()
         return HttpResponse('')

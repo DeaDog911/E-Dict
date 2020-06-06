@@ -2,6 +2,7 @@ import * as base from './base.js';
 
 $(document).ready(function() {
 
+    /**************************** Edit dict ***********************/
 
     $('.edit-dict').click((e) => {
         var dictContainer = e.target.parentElement.parentElement.parentElement;
@@ -46,6 +47,7 @@ $(document).ready(function() {
         })
     }
 
+    /*************************** Add new word **************************/
 
     $('.add-word-btn').click((e) => {
         e.preventDefault();
@@ -62,6 +64,14 @@ $(document).ready(function() {
 
         var data = {};
 
+        var selectColorBlock = $(wordCreateForm).find(".color-select");
+        var selectedColorBlock = $(selectColorBlock).find(".color-block.selected");
+
+        var color = $(selectedColorBlock).attr('name');
+
+        if (color === undefined)
+            color = ''
+
         if (wordCreateForm.classList.contains('form-manually')) {
             var definition = $(wordCreateForm).find('[name=definition]').val();
 
@@ -69,6 +79,7 @@ $(document).ready(function() {
                 'value': value,
                 'definition': definition,
                 'dictionary_slug': dictionary_slug,
+                'color': color,
             };
 
         } else if (wordCreateForm.classList.contains('form-auto')) {
@@ -79,6 +90,7 @@ $(document).ready(function() {
                 'value': value,
                 'dictionary_slug': dictionary_slug,
                 'lang': lang,
+                'color': color,
             };
         }
 
@@ -99,6 +111,7 @@ $(document).ready(function() {
         var openFormBtn = $(wordCreateForm.parentElement).find('.open-form-btn');
         var newWordContainer = createWordContainer(data['word_slug'], value, data['definition']);
         $(openFormBtn).before(newWordContainer);
+        newWordContainer.style.backgroundColor = data['color'];
         $(wordCreateForm).hide();
    }
 
@@ -156,7 +169,7 @@ $(document).ready(function() {
         deleteImg.setAttribute('src', '../../static/images/delete.svg');
 
         $(deleteImg).click((e) => {
-            super.deleteWord(newEditWordField);
+            base.deleteWord(newEditWordField);
         })
 
         var editImg = document.createElement('img');
@@ -178,6 +191,8 @@ $(document).ready(function() {
 
         return newEditWordField;
     }
+
+    /********************* Edit word *******************/
 
     $('.edit-word').click((e) => {
         var editWordField = e.target.parentElement;
@@ -201,10 +216,16 @@ $(document).ready(function() {
         var saveEditedBtn = $(editWordField).find('.save-edited');
         $(saveEditedBtn).show();
 
+        var colorSelect = $(wordContainer).find('.color-select');
+        $(colorSelect).show();
+
         $(saveEditedBtn).one('click', (e) => {
             e.stopPropagation();
             prepareToEdit(editWordField);
             $(saveEditedBtn).hide();
+            var colorSelect = $(wordContainer).find('.color-select');
+            $(colorSelect).hide();
+            base.toggleEditWordField(wordField);
         })
     }
 
@@ -215,13 +236,19 @@ $(document).ready(function() {
         var wordSlug = wordContainer.id;
         var newValue = $(wordField).children().eq(0).val();
         var newDefinition = $(wordField).children().eq(2).val();
+        var newColor = $(editWordField).find(".color-select").find('.color-block.selected').attr('name');
 
-        saveEditedWord(wordSlug, newValue, newDefinition);
+        if (newColor === undefined)
+            newColor = '';
+
+        saveEditedWord(wordSlug, newValue, newDefinition, newColor);
+
+        wordContainer.style.backgroundColor = newColor;
 
         base.toggleEditWordField(wordField);
     }
 
-    function saveEditedWord(wordSlug, newValue, newDefinition) {
+    function saveEditedWord(wordSlug, newValue, newDefinition, newColor) {
         $.ajax({
             type: 'POST',
             url: 'edit_word',
@@ -229,10 +256,12 @@ $(document).ready(function() {
                 'word_slug': wordSlug,
                 'new_value': newValue,
                 'new_definition': newDefinition,
+                'new_color': newColor,
             },
             success: (data) => {},
         });
     }
+
 
     $('.switch').on('change', (e) => {
         var formManually = $(e.target.parentElement.parentElement.parentElement).find('.form-manually');

@@ -15,7 +15,6 @@ export function deleteWord(editWordField) {
     }
 
 export function toggleEditWordField(wordField) {
-
     var wordContainer = wordField.parentElement;
     var editWordField = $(wordContainer).find('.edit-word-field');
 
@@ -29,13 +28,19 @@ export function toggleEditWordField(wordField) {
 
     }else {
         $(editWordField).hide();
+        $($(editWordField).find('.save-edited')).hide();
         try {
             wordField.style.borderBottom = '1px solid grey';
         } catch {
             $(wordField).css('border-bottom: 1px solid grey');
         }
         replaceAllToSpan(wordField);
+        var colorSelect = $(wordContainer).find('.color-select');
+        $(colorSelect).hide();
     }
+
+
+
 }
 
 export function replaceAllToSpan(wordField) {
@@ -149,10 +154,18 @@ $(document).ready(() => {
     })
 
     $('.profile-information').click((e) => {
-        if ($('.profile-information-block').css('opacity') == 0)
-            $('.profile-information-block').css('opacity', 1);
-        else
-            $('.profile-information-block').css('opacity', 0);
+        $('.profile-information-block').toggle();
     })
+
+    /**************** Select Color ********************/
+    $('.color-block').click((e) => {
+        var colorBlock = e.target;
+        var colorSelectBlock = colorBlock.parentElement;
+
+        for (var color of $(colorSelectBlock).find(".color-block")) {
+            $(color).removeClass('selected');
+        }
+        $(colorBlock).addClass('selected');
+    });
 
 })

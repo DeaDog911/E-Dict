@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" href="{% static 'images/E-dict.png' %}">
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
     <img src="" alt="">
     <!-- Styles -->
     <link rel="stylesheet" href="{% static 'styles/base.css' %}">
@@ -29,14 +29,14 @@
 
     <script src="{% static 'scripts/carhartl-jquery-cookie-92b7715/jquery.cookie.js' %}"></script>
     <script type="module" src="{% static 'scripts/base.js' %}"></script>
-    <title>Dictionary</title>
+    <title>{% block title %}Dictionary{% endblock %}</title>
 </head>
 <body>
     <div class="container-fluid">
         <!-- Nav bar -->
         <nav class="navbar navbar-expand-lg navbar-light mt-0 mb-5" style="background-color: #28B066">
             <a class="navbar-brand" href="#">
-                <img src="{% static 'images/E-dict.png' %}" width="30" height="30" alt="">
+                <img src="{% static 'images/logo.png' %}" width="30" height="30" alt="">
                 E-dict
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -56,19 +56,25 @@
                           <a class="dropdown-item" href="{% url 'definitions_dict_list_url' %}">Словари определений</a>
                         </div>
                     </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'start_exam_url' %}"role="button" data-toggle="" aria-haspopup="true" aria-expanded="false">
+                           Exams
+                        </a>
+                    </li>
                 </ul>
-                <div class="profile-information">
-                </div>
-                 <div class="profile-information-block">
-                    <ul>
-                        <li>
-                            <a href="{% url 'profile_url' %}">Настройки</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'logout' %}">Выйти</a>
-                        </li>
-                    </ul>
-                </div>
+            </div>
+            <div class="profile-information">
+                <img src="{% static 'images/user.png' %}" alt="">
+            </div>
+             <div class="profile-information-block">
+                <ul>
+                    <li>
+                        <a href="{% url 'profile_url' %}">Настройки</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %}">Выйти</a>
+                    </li>
+                </ul>
             </div>
         </nav>
 

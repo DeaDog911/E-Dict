@@ -3,21 +3,9 @@ body {
     padding: 0;
 }
 
-label {
-    margin-top: 10px;
-    position: absolute;
-    color: #fff;
-    font-weight: 30px;
-    font-size: 15px;
-    pointer-events: none;
-}
 
-.dicts-list {
-    width: 70%;
-    height: 100%;
-    margin: 20px auto 0 auto;
-    padding: 20px;
-}
+
+
 
 .dict-container {
     border: 1px solid grey;
@@ -88,3 +76,4 @@ label {
 span:focus {
     color: red;
 }
+

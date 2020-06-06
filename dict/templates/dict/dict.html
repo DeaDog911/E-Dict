@@ -1,11 +1,28 @@
 {% extends 'dict/base_dict.html' %}
 {% load static %}
+{% load my_tags %}
 
 {% block content %}
     <link rel="stylesheet" href="{% static 'styles/dict.css' %}">
 
     <div class="dicts-list">
-        {% for dict in dictionaries %}
+
+        <div class="sort sort-dicts mt-3">
+            <span>Sort by</span>
+            <div class="sorted-fields">
+                <a href="?dicts_order_by={% set_correct_order_dicts 'language' request %}">
+                    language
+                </a>
+                <a href="?dicts_order_by={% set_correct_order_dicts 'date_create' request %}">
+                    date create
+                </a>
+                <a href="?dicts_order_by={% set_correct_order_dicts 'title' request %}">
+                     title
+                </a>
+            </div>
+        </div>
+
+        {% for dict in dictionaries.iterator %}
             <div class="dict-container" id="{{ dict.slug }}">
 
                 <div class="dict-header">
@@ -18,6 +35,7 @@
                     <div>
                         <img class="delete-dict" src="{% static 'images/delete.svg' %}" alt="">
                         <img class="edit-dict" src="{% static 'images/edit.svg' %}" alt="">
+
                         <button class="save-edited-dict btn btn-success" style="display: none;">Сохранить</button>
                     </div>
                 </div>
@@ -29,20 +47,63 @@
                         <span>Перевод</span>
                     </div>
 
-                    {% for word in dict.words.iterator %}
-                        <div class="word-container" id="{{ word.slug }}">
-                            <div class="word-field">
-                                <span class="value">{{ word.value }}</span>
-                                <span class="transcription">{{ word.transcription }}</span>
-                                <span class="translation">{{ word.translation }}</span>
-                            </div>
-                            <div class="edit-word-field" style="display: none;">
-                                <img class="delete-word" src="{% static 'images/delete.svg' %}" alt="">
-                                <img class="edit-word" src="{% static 'images/edit.svg' %}" alt="">
-                                <button class="save-edited btn btn-success">Сохранить</button>
-                            </div>
+                    <div class="sort-words mt-3">
+                        <span>Sort by</span>
+                        <div class="sorted-fields">
+                            <a href="?dict={{ dict.slug }}&order_by={% set_correct_order_words 'color' request %}">
+                                color
+                            </a>
+                            <a href="?dict={{ dict.slug }}&order_by={% set_correct_order_words 'date_create' request %}">
+                                date create
+                            </a>
+                            <a href="?dict={{ dict.slug }}&order_by={% set_correct_order_words 'value' request %}">
+                                 value
+                            </a>
                         </div>
-                    {% endfor %}
+                    </div>
+
+
+                    {% if request.GET.dict == dict.slug and request.GET.dict and dict.slug %}
+                        {% for word in dict.words|order_by:request.GET.order_by%}
+                            <div class="word-container" id="{{ word.slug }}" style="background: {{ word.color }};">
+                                <div class="word-field">
+                                    <span class="value">{{ word.value }}</span>
+                                    <span class="transcription">{{ word.transcription }}</span>
+                                    <span class="translation">{{ word.translation }}</span>
+                                </div>
+                                <div class="edit-word-field" style="display: none;">
+                                    <img class="delete-word" src="{% static 'images/delete.svg' %}" alt="">
+                                    <img class="edit-word" src="{% static 'images/edit.svg' %}" alt="">
+
+                                    <button class="save-edited btn btn-success">Сохранить</button>
+
+                                    <div class="color-select mr-2" style="display: none">
+                                        {% include 'includes/colors.html' %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% for word in dict.words.iterator %}
+                            <div class="word-container" id="{{ word.slug }}" style="background: {{ word.color }};">
+                                <div class="word-field">
+                                    <span class="value">{{ word.value }}</span>
+                                    <span class="transcription">{{ word.transcription }}</span>
+                                    <span class="translation">{{ word.translation }}</span>
+                                </div>
+                                <div class="edit-word-field" style="display: none;">
+                                    <img class="delete-word" src="{% static 'images/delete.svg' %}" alt="">
+                                    <img class="edit-word" src="{% static 'images/edit.svg' %}" alt="">
+
+                                    <button class="save-edited btn btn-success">Сохранить</button>
+
+                                    <div class="color-select mr-2" style="display: none">
+                                        {% include 'includes/colors.html' %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
 
                     <button class="open-form-btn btn btn-primary mt-2">Добавить новое слово</button>
 
@@ -67,6 +128,10 @@
                         </p>
                         <input class="form-control mr-2" type="text" name="value" placeholder="Значение">
 
+                        <div class="color-select mr-2">
+                            {% include 'includes/colors.html' %}
+                        </div>
+
                         <button class="btn btn-success add-word-btn mt-3">Добавить</button>
                     </form>
 
@@ -75,6 +140,10 @@
                         <input class="form-control mr-2" type="text" name="value" placeholder="Значение">
                         <input class="form-control mr-2" type="text" name="transcription" placeholder="Транскрипция">
                         <input class="form-control mr-2" type="text" name="translation" placeholder="Перевод">
+
+                        <div class="color-select mr-2">
+                            {% include 'includes/colors.html' %}
+                        </div>
 
                         <button class="btn btn-success add-word-btn">Добавить</button>
                     </form>

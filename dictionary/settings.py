@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'dict',
     'definitions',
     'user_actions',
+    'exams',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,25 @@
+.dicts-list {
+    padding: 10px;
+    border: 1px solid grey;
+    border-radius: 20px;
+    width: 500px;
+    margin-top: 0;
+    margin-bottom: 50px;
+}
+
+li {
+    list-style: none;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.result {
+    width: 200px;
+    height:200px;
+    padding: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    border: 1px solid grey;
+    border-radius: 20px;
+    margin-top: -200px;
+}
