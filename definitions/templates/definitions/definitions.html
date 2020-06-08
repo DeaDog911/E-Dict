@@ -24,12 +24,12 @@
 
                 <div class="dict-header">
                     <div class="about-dict">
-                        Название: <span>{{ dict }}</span>
+                        Title: <span>{{ dict }}</span>
                     </div>
                     <div>
                         <img class="delete-dict" src="{% static 'images/delete.svg' %}" alt="">
                         <img class="edit-dict" src="{% static 'images/edit.svg' %}" alt="">
-                        <button class="save-edited-dict btn btn-success" style="display: none;">Сохранить</button>
+                        <button class="save-edited-dict btn btn-success" style="display: none;">Save</button>
                     </div>
                 </div>
 
@@ -62,7 +62,7 @@
                                     <img class="delete-word" src="{% static 'images/delete.svg' %}" alt="">
                                     <img class="edit-word" src="{% static 'images/edit.svg' %}" alt="">
 
-                                    <button class="save-edited btn btn-success" style="display: none;">Сохранить</button>
+                                    <button class="save-edited btn btn-success" style="display: none;">Save</button>
 
                                     <div class="color-select mr-2" style="display: none">
                                         {% include 'includes/colors.html' %}
@@ -82,7 +82,7 @@
                                     <img class="delete-word" src="{% static 'images/delete.svg' %}" alt="">
                                     <img class="edit-word" src="{% static 'images/edit.svg' %}" alt="">
 
-                                    <button class="save-edited btn btn-success" style="display: none;">Сохранить</button>
+                                    <button class="save-edited btn btn-success" style="display: none;">Save</button>
 
                                     <div class="color-select mr-2" style="display: none">
                                         {% include 'includes/colors.html' %}
@@ -92,10 +92,10 @@
                         {% endfor %}
                     {% endif %}
 
-                    <button class="open-form-btn btn btn-primary mt-2">Добавить новое слово</button>
+                    <button class="open-form-btn btn btn-primary mt-2">Add new word</button>
 
                     <div class="toggleBox mt-3" style="display: none;">
-                        <p>Автоматически найти определение</p>
+                        <p>Find definition automatically</p>
                         <div class="toggle">
                             <input class="switch" type="checkbox" checked>
                             <label for="" class="onbtn">On</label>
@@ -111,7 +111,7 @@
                            {% include 'includes/colors.html' %}
                         </div>
 
-                        <button class="btn btn-success add-word-btn">Добавить</button>
+                        <button class="btn btn-success add-word-btn">Add</button>
                     </form>
 
                     <form class="form-auto mt-2 " style="display: none;" action="">
@@ -127,17 +127,17 @@
                             {% include 'includes/colors.html' %}
                         </div>
 
-                        <button class="btn btn-success add-word-btn mt-3">Добавить</button>
+                        <button class="btn btn-success add-word-btn mt-3">Add</button>
                     </form>
 
                 </div>
             </div>
         {% endfor %}
-        <button id="open-create-dict-form" class="btn btn-primary mt-4 mb-4">Создать новый словарь</button>
+        <button id="open-create-dict-form" class="btn btn-primary mt-4 mb-4">Create new dictionary</button>
         <form id="create-dict-form" action="{% url 'create_dict_definition_url' %}" style="display: none;" method="POST">
             {% csrf_token %}
             {{ create_dict_form.as_p }}
-            <button class="btn btn-success">Создать</button>
+            <button class="btn btn-success">Create</button>
         </form>
     </div>
 

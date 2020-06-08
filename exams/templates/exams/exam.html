@@ -2,27 +2,41 @@
 {% load static %}
 
 {% block content %}
+    <link rel="stylesheet" href="{% static 'styles/exams.css' %}">
+
     <form action="done/" method="POST" id="questions-form" class="align-center">{% csrf_token %}
         {% for question in question_dict.questions %}
             {% if question.question_group == 'choose' %}
                 <div class="question hide" data-word-slug="{{ question.word_slug }}" data-question-type="{{ question.question_type }}" data-question-group="{{ question.question_group }}" >
-                    <p>{{ question.question_type }}</p>
+                    {% if question.question_type == 'choose_translation' %}
+                        <p>Choose correct translation</p>
+                    {% elif question.question_type == 'choose_transcriptions' %}
+                        <p>Choose correct transcription</p>
+                    {% elif question.question_type == 'choose_value' %}
+                        <p>Choose correct value</p>
+                    {% elif question.question_type == 'choose_definition' %}
+                        <p>Choose correct definition</p>
+                    {% endif %}
                     <p>{{ question.base_field_value }}</p>
                     <div class="options">
                         {% for option in question.options.options %}
                             <p><input type="radio" name="{{ question.word_slug }}?{{ question.question_type }}" data-value="{{ option }}">{{ option }}</p>
                         {% endfor %}
                     </div>
-                    <button class="next">{% if questions.count > 1 %}Next{% else %}Done{% endif %}</button>
+                    <button class="btn btn-primary next mt-2">{% if questions.count > 1 %}Next{% else %}Done{% endif %}</button>
                 </div>
             {% elif question.question_group == 'input' %}
                 <div class="question hide" data-word-slug="{{ question.word_slug }}" data-question-type="{{ question.question_type }}" data-question-group="{{ question.question_group }}" >
-                    <p>{{ question.question_type }}</p>
+                    {% if question.question_type == 'input_translation' %}
+                        <p>Input correct translation</p>
+                    {% elif question.question_type == 'input_value' %}
+                        <p>Input correct value</p>
+                    {% endif %}
                     <p>{{ question.field_value.base_field }}</p>
                     <div>
                         <input type="text" name="{{ question.word_slug }}?{{ question.question_type }}">
                     </div>
-                    <button class="next">{% if questions.count > 1 %}Next{% else %}Done{% endif %}</button>
+                    <button class="btn btn-primary next mt-2">{% if questions.count > 1 %}Next{% else %}Done{% endif %}</button>
                 </div>
             {% endif %}
         {% endfor %}

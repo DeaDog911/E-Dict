@@ -56,7 +56,6 @@ def get_question_type_definitions():
         ['choose_value', 'choose'],
         ['choose_definition', 'choose'],
         ['input_value', 'input'],
-        ['input_definition', 'input'],
     ]
 
     return random.choice(questions)
@@ -158,7 +157,6 @@ def make_input(word, question_type):
         }
     except AttributeError:
         field_switcher = {
-            'input_definition': {'base_field': word.value, 'current_filed_value': word.definition, },
             'input_value': {'base_field': word.definition, 'current_filed_value': word.value, },
         }
 
@@ -198,6 +196,9 @@ def make_question_definitions(word: definitions.models.Word):
     return make_question(word, question_type, question_group)
 
 
+# Check answers
+
+
 def is_correct(question, answer):
     word_slug, question_type = question.split('?')
     try:
@@ -213,7 +214,6 @@ def is_correct(question, answer):
         word = definitions.models.Word.objects.get(slug=word_slug)
         switcher = {
             'choose_definition': word.definition,
-            'input_definition': word.definition,
             'choose_value': word.value,
             'input_value': word.value,
         }
