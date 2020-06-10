@@ -1,0 +1,12 @@
+html {
+    hyphens: auto;
+}
+
+.word-field {
+    overflow-wrap: break-word;  /* не поддерживает IE, Firefox; является копией word-wrap */
+    word-wrap: break-word;
+    word-break: break-all;  /* не поддерживает Opera12.14, значение keep-all не поддерживается IE, Chrome */
+    line-break: normal;  /* нет поддержки для русского языка */
+    -webkit-hyphens: none; ​-ms-hyphens: none; hyphens: none;  /* значение auto не поддерживается Chrome */
+    ​width: 50%;
+}

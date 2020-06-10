@@ -1,0 +1,79 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+
+.dict-container {
+    border: 1px solid grey;
+    border-radius: 5px;
+    z-index: 10;
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.words-list {
+    margin-top: 10px;
+}
+
+.word-list-header,
+.word-field {
+    width: 100%;
+    display: flex;
+    min-height: 40px;
+    justify-content: space-between;
+    border: 1px solid grey;
+    padding: 10px;
+}
+
+.edit-word-field {
+    height: 50px;
+    padding: 5px;
+    border: 1px solid grey;
+    border-top: 0;
+}
+
+.dict-header img,
+.edit-word-field img{
+    float: right;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+.save-edited {
+    float: right;
+    display: none;
+}
+
+.dict-header {
+    z-index: 5;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.dict-header span,
+.dict-header input {
+    max-width: 500px;
+}
+
+.word-list-header,
+.word-field {
+    width: 100%;
+    display: flex;
+    min-height: 40px;
+    justify-content: space-between;
+    border: 1px solid grey;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+span:focus {
+    color: red;
+}
+

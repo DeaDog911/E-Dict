@@ -1,0 +1,251 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+}
+
+
+.profile-information,
+.profile-information img{
+    background: #DCDAD5;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.profile-information-block {
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    border: 1px solid grey;
+    border-bottom: none;
+    background: #fff;
+    display: none;
+}
+
+.profile-information-block ul li {
+    padding: 10px;
+    list-style-type: none;
+    width: 200px;
+    height: 50px;
+    border-bottom: 1px solid grey;
+    box-sizing: border-box;
+    display: list-item;
+
+}
+
+.profile-information-block ul li a {
+    width: 200px;
+    height: 50px;
+    display: block;
+    color: #28B066;
+}
+.profile-information-block ul li:hover {
+    background: #DBDBDB;
+}
+.profile-information-block ul li a:hover,
+.profile-information-block ul li a:focus {
+    text-decoration: none;
+
+}
+
+textarea {
+    width: 90%;
+    height: 200px;
+    resize: none;
+}
+
+.wrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    overflow: auto;
+}
+
+.about-dict input,
+.about-dict span {
+    margin-right: 50px;
+}
+
+.navbar {
+    margin-top: 0;
+    z-index: 50;
+}
+
+.dicts-list {
+    width: 70%;
+    height: 100%;
+    margin-top: 200px;
+    padding: 20px;
+}
+
+.dict-container {
+    border: 1px solid grey;
+    border-radius: 5px;
+    z-index: 10;
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.words-list {
+    margin-top: 10px;
+}
+
+.word-list-header,
+.word-field {
+    width: 100%;
+    min-height: 40px;
+    border: 1px solid grey;
+    padding: 10px;
+}
+
+.edit-word-field {
+    height: 50px;
+    padding: 5px;
+    border: 1px solid grey;
+    border-top: 0;
+}
+
+.dict-header img,
+.edit-word-field img{
+    float: right;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+.save-edited {
+    float: right;
+    display: none;
+}
+
+.dict-header {
+    z-index: 5;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.dict-header span,
+.dict-header input {
+    max-width: 500px;
+}
+
+select {
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+}
+
+/** Switch **/
+
+input[type="checkbox"] {
+    width: 80px;
+    height: 30px;
+    background: #bdc3c7;
+    -webkit-appearance: none;
+    border-radius: 20px;
+    outline: none;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+input:checked[type="checkbox"] {
+    background: #007bff;
+}
+
+input[type="checkbox"]::before {
+    z-index: 2;
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: 5px;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50px;
+    transform: scale(1.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: .4s;
+
+}
+
+input:checked[type="checkbox"]::before {
+    left: 50px;
+}
+
+.toggle {
+    position: relative;
+    display: inline;
+}
+
+.onbtn, .offbtn {
+    position: absolute;
+    bottom: -1px;
+}
+
+.onbtn {
+    left: 10px;
+    color: #fff;
+}
+
+.offbtn {
+    color: black;
+    left: 50px;
+}
+
+.color-select {
+}
+
+.color-block {
+    margin-top: 10px;
+    width: 30px;
+    height: 30px;
+    border: 2px solid grey;
+    display: inline-block;
+}
+
+.color-block.selected {
+    border: 2px solid blue;
+}
+
+
+.sort-dicts,
+.sort-words {
+
+}
+
+.sorted-fields {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.sorted-fields a{
+    margin-right: 20px;
+    text-decoration: underline;
+}
+
+.sorted-fields a:hover{
+    color: blue;
+}
+
+.hide{
+    display: none;
+}
+
+.align-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
